@@ -42,7 +42,9 @@ dependencies = [
     "toposort>=1.0",
     "watchdog>=0.8.3,<7",
     'psutil>=1.0; platform_system=="Windows"',
-    'pywin32!=226; platform_system=="Windows"',
+    # [lite-engine] pywin32 removed — not imported anywhere in the dagster
+    # source on the in-process execution path (was used by the removed
+    # process-management / daemon / gRPC-launcher layer).
     "docstring-parser",
     "universal_pathlib; python_version<'3.12'",
     "universal_pathlib>=0.2.0; python_version>='3.12'",
