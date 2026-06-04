@@ -5,3 +5,4 @@ phase,site_packages_kb,dagster_src_kb,total_kb,total_mb
 "phase2b-drop-pywin32",53067,20175,73242,71.5
 "phase2c-drop-rich-pygments-fsspec-upath-jinja2-tabulate",42025,20183,62208,60.8
 "phase3a-cleanroom-storage-drop-sqlalchemy-stack-tqdm-watchdog",22865,20269,43134,42.1
+"phase3b-drop-unused-transitive-deps",19193,20269,39462,38.5

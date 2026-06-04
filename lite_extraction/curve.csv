@@ -4,3 +4,4 @@ phase,site_packages_mb,total_mb,note
 2,51.8,71.5,drop pywin32 (unused on in-process path)
 3,41.0,60.8,drop rich/pygments/fsspec/upath/jinja2/tabulate (pathlib IO fallback)
 4,22.3,42.1,clean-room in-memory storage: drop sqlalchemy+alembic+greenlet+mako+tqdm+watchdog
+5,18.7,38.5,drop unused transitive deps (requests/urllib3/antlr4/orphaned rich+jinja deps)

@@ -35,7 +35,7 @@ dependencies = [
     # grpc; it was only used by the cross-process gRPC server/client layer.
     "python-dotenv",
     "pytz",
-    "requests",
+    # [lite-engine] requests removed — only used for telemetry upload + version checks.
     "six",
     # [lite-engine] tabulate removed — only used for CLI table output.
     "tomli<3",
@@ -58,7 +58,8 @@ dependencies = [
     "filelock",
     "dagster-pipes==1!0+dev",
     "dagster-shared==1!0+dev",
-    "antlr4-python3-runtime<4.14",
+    # [lite-engine] antlr4-python3-runtime removed — only used to parse
+    # string-based asset selection grammar; the engine accepts list/AssetSelection.
 ]
 
 [project.urls]
