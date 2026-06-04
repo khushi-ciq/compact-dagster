@@ -1,0 +1,4 @@
+phase,site_packages_kb,dagster_src_kb,total_kb,total_mb
+"phase0-baseline",82696,20175,102871,100.5
+"phase2a-drop-grpc-protobuf",69177,20175,89352,87.3
+"phase2a-grpc-dropped-stable",69177,20175,89352,87.3
