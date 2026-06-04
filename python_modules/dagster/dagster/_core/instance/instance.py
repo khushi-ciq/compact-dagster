@@ -60,7 +60,7 @@ if TYPE_CHECKING:
     from dagster._core.storage.root import LocalArtifactStorage
     from dagster._core.storage.runs import RunStorage
     from dagster._core.storage.schedules import ScheduleStorage
-    from dagster._core.storage.sql import AlembicVersion
+    from dagster._core.storage.migration_types import AlembicVersion
 
 DagsterInstanceOverrides: TypeAlias = Mapping[str, Any]
 

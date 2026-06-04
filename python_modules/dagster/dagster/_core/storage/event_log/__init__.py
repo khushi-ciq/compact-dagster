@@ -3,20 +3,29 @@ from dagster._core.storage.event_log.base import (
     EventLogRecord as EventLogRecord,
     EventLogStorage as EventLogStorage,
 )
-from dagster._core.storage.event_log.in_memory import (
-    InMemoryEventLogStorage as InMemoryEventLogStorage,
-)
-from dagster._core.storage.event_log.polling_event_watcher import (
-    SqlPollingEventWatcher as SqlPollingEventWatcher,
-)
-from dagster._core.storage.event_log.schema import (
-    AssetKeyTable as AssetKeyTable,
-    DynamicPartitionsTable as DynamicPartitionsTable,
-    SqlEventLogStorageMetadata as SqlEventLogStorageMetadata,
-    SqlEventLogStorageTable as SqlEventLogStorageTable,
-)
-from dagster._core.storage.event_log.sql_event_log import SqlEventLogStorage as SqlEventLogStorage
-from dagster._core.storage.event_log.sqlite import (
-    ConsolidatedSqliteEventLogStorage as ConsolidatedSqliteEventLogStorage,
-    SqliteEventLogStorage as SqliteEventLogStorage,
-)
+
+# [lite-engine] The SQL-backed event log storages import sqlalchemy. They remain
+# available when sqlalchemy is installed, but are optional for the in-process
+# lite engine, which uses the dependency-free LiteInMemoryEventLogStorage.
+try:
+    from dagster._core.storage.event_log.in_memory import (
+        InMemoryEventLogStorage as InMemoryEventLogStorage,
+    )
+    from dagster._core.storage.event_log.polling_event_watcher import (
+        SqlPollingEventWatcher as SqlPollingEventWatcher,
+    )
+    from dagster._core.storage.event_log.schema import (
+        AssetKeyTable as AssetKeyTable,
+        DynamicPartitionsTable as DynamicPartitionsTable,
+        SqlEventLogStorageMetadata as SqlEventLogStorageMetadata,
+        SqlEventLogStorageTable as SqlEventLogStorageTable,
+    )
+    from dagster._core.storage.event_log.sql_event_log import (
+        SqlEventLogStorage as SqlEventLogStorage,
+    )
+    from dagster._core.storage.event_log.sqlite import (
+        ConsolidatedSqliteEventLogStorage as ConsolidatedSqliteEventLogStorage,
+        SqliteEventLogStorage as SqliteEventLogStorage,
+    )
+except ImportError:
+    pass

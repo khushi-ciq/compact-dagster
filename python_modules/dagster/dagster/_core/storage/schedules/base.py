@@ -16,7 +16,7 @@ from dagster._core.scheduler.instigation import (
     TickData,
     TickStatus,
 )
-from dagster._core.storage.sql import AlembicVersion
+from dagster._core.storage.migration_types import AlembicVersion
 from dagster._utils import PrintFn
 
 

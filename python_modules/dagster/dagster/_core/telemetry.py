@@ -202,7 +202,12 @@ def _check_telemetry_instance_param(
 def _get_instance_telemetry_info(
     instance: DagsterInstance,
 ) -> TelemetrySettings:
-    from dagster._core.storage.runs import SqlRunStorage
+    # [lite-engine] SqlRunStorage is unavailable when the SQL stack is not
+    # installed (lite engine uses the dependency-free in-memory store).
+    try:
+        from dagster._core.storage.runs import SqlRunStorage
+    except ImportError:
+        SqlRunStorage = ()  # isinstance(..., ()) is always False
 
     check.inst_param(instance, "instance", DagsterInstance)
     dagster_telemetry_enabled = _get_instance_telemetry_enabled(instance)

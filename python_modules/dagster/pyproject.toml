@@ -23,37 +23,43 @@ dependencies = [
     # cli
     "click>=5.0,<9.0",
     "coloredlogs>=6.1,<=14.0",
-    "Jinja2",
+    # [lite-engine] Jinja2 removed — only used by component scaffolding templates.
     # core
-    "alembic>=1.2.1,!=1.6.3,!=1.7.0,!=1.11.0",
-    "grpcio>=1.66.2; python_version>='3.13'",
-    "grpcio>=1.44.0; python_version<'3.13'",
-    "grpcio-health-checking>=1.66.2; python_version>='3.13'",
-    "grpcio-health-checking>=1.44.0; python_version<'3.13'",
-    "protobuf>=3.20.0,<7; python_version<'3.11'",
-    "protobuf>=4,<7; python_version>='3.11'",
+    # [lite-engine] sqlalchemy + alembic removed (also drops greenlet + mako) —
+    # the in-process engine uses a clean-room dict-backed storage
+    # (dagster/_core/storage/lite_memory.py) behind the RunStorage /
+    # EventLogStorage interfaces. The SQL-backed storages remain importable iff
+    # sqlalchemy is installed (storage __init__ files guard the import).
+    # [lite-engine] grpcio / grpcio-health-checking / protobuf removed — the
+    # in-process execution path (materialize / execute_in_process) never imports
+    # grpc; it was only used by the cross-process gRPC server/client layer.
     "python-dotenv",
     "pytz",
-    "requests",
+    # [lite-engine] requests removed — only used for telemetry upload + version checks.
     "six",
-    "tabulate",
+    # [lite-engine] tabulate removed — only used for CLI table output.
     "tomli<3",
-    "tqdm<5",
+    # [lite-engine] tqdm removed — only used by SQL storage migration progress bars.
     "tzdata",
     "structlog",
-    "sqlalchemy>=1.0,<3",
+    # [lite-engine] sqlalchemy removed (see note above).
     "toposort>=1.0",
-    "watchdog>=0.8.3,<7",
+    # [lite-engine] watchdog removed — only used by SQLite event-log file watching.
     'psutil>=1.0; platform_system=="Windows"',
-    'pywin32!=226; platform_system=="Windows"',
+    # [lite-engine] pywin32 removed — not imported anywhere in the dagster
+    # source on the in-process execution path (was used by the removed
+    # process-management / daemon / gRPC-launcher layer).
     "docstring-parser",
-    "universal_pathlib; python_version<'3.12'",
-    "universal_pathlib>=0.2.0; python_version>='3.12'",
-    "rich",
+    # [lite-engine] universal_pathlib + fsspec removed — the default filesystem
+    # IO manager falls back to stdlib pathlib.Path for local storage via
+    # dagster/_core/storage/_upath_compat.py.
+    # [lite-engine] rich + pygments removed — only used for CLI pretty-printing;
+    # execution logging uses coloredlogs/structlog.
     "filelock",
     "dagster-pipes==1!0+dev",
     "dagster-shared==1!0+dev",
-    "antlr4-python3-runtime<4.14",
+    # [lite-engine] antlr4-python3-runtime removed — only used to parse
+    # string-based asset selection grammar; the engine accepts list/AssetSelection.
 ]
 
 [project.urls]

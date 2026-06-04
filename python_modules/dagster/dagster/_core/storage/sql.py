@@ -1,17 +1,18 @@
+from __future__ import annotations
+
 import threading
 from functools import lru_cache
-from typing import Any, TypeAlias
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 import sqlalchemy as db
-from alembic.command import downgrade, stamp, upgrade
-from alembic.config import Config
-from alembic.runtime.environment import EnvironmentContext
-from alembic.runtime.migration import MigrationContext
-from alembic.script import ScriptDirectory
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.compiler import compiles
 
 from dagster._utils import file_relative_path
+
+if TYPE_CHECKING:
+    from alembic.config import Config
+    from alembic.runtime.environment import EnvironmentContext
 
 create_engine = db.create_engine  # exported
 
@@ -24,7 +25,9 @@ SqlAlchemyQuery: TypeAlias = Any
 # Stand-in for a typed row object, which is only available in sqlalchemy 2+
 SqlAlchemyRow: TypeAlias = Any
 
-AlembicVersion: TypeAlias = tuple[str | None, str | tuple[str, ...] | None]
+# Re-exported from a dependency-free module so storage interfaces can import the
+# type without pulling in sqlalchemy/alembic (this module imports both).
+from dagster._core.storage.migration_types import AlembicVersion as AlembicVersion
 
 
 @lru_cache(maxsize=3)  # run, event, and schedule storages
@@ -33,6 +36,8 @@ def get_alembic_config(
     config_path: str = "alembic/alembic.ini",
     script_location: str | None = None,
 ) -> Config:
+    from alembic.config import Config
+
     if not script_location:
         script_location = ALEMBIC_SCRIPTS_LOCATION
 
@@ -44,6 +49,8 @@ def get_alembic_config(
 def run_alembic_upgrade(
     alembic_config: Config, conn: Connection, run_id: str | None = None, rev: str = "head"
 ) -> None:
+    from alembic.command import upgrade
+
     alembic_config.attributes["connection"] = conn
     alembic_config.attributes["run_id"] = run_id
     upgrade(alembic_config, rev)
@@ -52,6 +59,8 @@ def run_alembic_upgrade(
 def run_alembic_downgrade(
     alembic_config: Config, conn: Connection, rev: str, run_id: str | None = None
 ) -> None:
+    from alembic.command import downgrade
+
     alembic_config.attributes["connection"] = conn
     alembic_config.attributes["run_id"] = run_id
     downgrade(alembic_config, rev)
@@ -62,12 +71,17 @@ _alembic_lock = threading.Lock()
 
 
 def stamp_alembic_rev(alembic_config: Config, conn: Connection, rev: str = "head") -> None:
+    from alembic.command import stamp
+
     with _alembic_lock:
         alembic_config.attributes["connection"] = conn
         stamp(alembic_config, rev)
 
 
 def check_alembic_revision(alembic_config: Config, conn: Connection) -> AlembicVersion:
+    from alembic.runtime.migration import MigrationContext
+    from alembic.script import ScriptDirectory
+
     with _alembic_lock:
         migration_context = MigrationContext.configure(conn)
         db_revision = migration_context.get_current_revision()
