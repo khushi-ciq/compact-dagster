@@ -23,7 +23,7 @@ dependencies = [
     # cli
     "click>=5.0,<9.0",
     "coloredlogs>=6.1,<=14.0",
-    "Jinja2",
+    # [lite-engine] Jinja2 removed — only used by component scaffolding templates.
     # core
     "alembic>=1.2.1,!=1.6.3,!=1.7.0,!=1.11.0",
     # [lite-engine] grpcio / grpcio-health-checking / protobuf removed — the
@@ -33,7 +33,7 @@ dependencies = [
     "pytz",
     "requests",
     "six",
-    "tabulate",
+    # [lite-engine] tabulate removed — only used for CLI table output.
     "tomli<3",
     "tqdm<5",
     "tzdata",
@@ -46,9 +46,11 @@ dependencies = [
     # source on the in-process execution path (was used by the removed
     # process-management / daemon / gRPC-launcher layer).
     "docstring-parser",
-    "universal_pathlib; python_version<'3.12'",
-    "universal_pathlib>=0.2.0; python_version>='3.12'",
-    "rich",
+    # [lite-engine] universal_pathlib + fsspec removed — the default filesystem
+    # IO manager falls back to stdlib pathlib.Path for local storage via
+    # dagster/_core/storage/_upath_compat.py.
+    # [lite-engine] rich + pygments removed — only used for CLI pretty-printing;
+    # execution logging uses coloredlogs/structlog.
     "filelock",
     "dagster-pipes==1!0+dev",
     "dagster-shared==1!0+dev",
