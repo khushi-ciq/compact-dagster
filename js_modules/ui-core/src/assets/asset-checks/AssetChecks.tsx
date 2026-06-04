@@ -1,12 +1,10 @@
 import {
-  Body2,
   Box,
-  Caption,
-  Colors,
   Heading,
   Icon,
   MiddleTruncate,
   NonIdealState,
+  Text,
   TextInput,
   useViewport,
 } from '@dagster-io/ui-components';
@@ -165,10 +163,10 @@ export const AssetChecks = ({
           icon="asset_check"
           description={
             <Box flex={{direction: 'column', gap: 8}}>
-              <Body2>
+              <Text size={14}>
                 Asset checks can verify properties of a data asset, e.g. that there are no null
                 values in a particular column.
-              </Body2>
+              </Text>
               <a href="https://docs.dagster.io/concepts/assets/asset-checks">
                 Learn more about asset checks
               </a>
@@ -238,15 +236,16 @@ export const AssetChecks = ({
                             >
                               {getCheckIcon(check)}
                             </Box>
-                            <Body2 style={{overflow: 'hidden'}}>
+                            <Text size={14} style={{overflow: 'hidden'}}>
                               <MiddleTruncate text={check.name} />
-                              <Caption
-                                color={Colors.textLight()}
+                              <Text
+                                size={12}
+                                color="textLight"
                                 style={{textTransform: 'capitalize'}}
                               >
                                 {assetCheckStatusDescription(check)}
-                              </Caption>
-                            </Body2>
+                              </Text>
+                            </Text>
                           </Box>
                         </Box>
                       </Row>
