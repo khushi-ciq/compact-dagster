@@ -55,5 +55,15 @@ guarded with `try/except ImportError`, making the entire SQL stack optional.
   them is a large cascade for ~0.4 MB of source — not worth it once the deps
   (the real weight) were gone.
 - `pytz → zoneinfo` swap: only ~2 MB and tangled in vendored `croniter`.
+
+## Update: antlr4 restored
+
+`essentials_test.py` exercises the core feature surface (asset graphs,
+resources, run config, multi-assets, asset checks, graph-backed assets,
+cross-run IO). 10/10 pass. The only feature that needed a dropped dep was the
+*string* asset-selection grammar (`define_asset_job("all", "*")`), so
+`antlr4-python3-runtime` was restored (~0.4 MB installed). The tree-shaken
+bundle is unaffected unless a workload actually uses string selection (then
+antlr4 enters the closure, +~0.58 MB).
 - PyInstaller/Nuitka onefile: the tree-shaken runnable bundle above is the
   equivalent measurement, minus the ~5 MB Python runtime any packager embeds.

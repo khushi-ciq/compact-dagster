@@ -58,8 +58,9 @@ dependencies = [
     "filelock",
     "dagster-pipes==1!0+dev",
     "dagster-shared==1!0+dev",
-    # [lite-engine] antlr4-python3-runtime removed — only used to parse
-    # string-based asset selection grammar; the engine accepts list/AssetSelection.
+    # [lite-engine] kept — parses the string asset-selection grammar
+    # (e.g. define_asset_job("all", "*")). ~0.58MB.
+    "antlr4-python3-runtime<4.14",
 ]
 
 [project.urls]
