@@ -25,7 +25,9 @@ SqlAlchemyQuery: TypeAlias = Any
 # Stand-in for a typed row object, which is only available in sqlalchemy 2+
 SqlAlchemyRow: TypeAlias = Any
 
-AlembicVersion: TypeAlias = tuple[str | None, str | tuple[str, ...] | None]
+# Re-exported from a dependency-free module so storage interfaces can import the
+# type without pulling in sqlalchemy/alembic (this module imports both).
+from dagster._core.storage.migration_types import AlembicVersion as AlembicVersion
 
 
 @lru_cache(maxsize=3)  # run, event, and schedule storages

@@ -40,7 +40,7 @@ from dagster._core.storage.asset_check_execution_record import (
 )
 from dagster._core.storage.dagster_run import DagsterRunStatsSnapshot
 from dagster._core.storage.partition_status_cache import get_and_update_asset_status_cache_value
-from dagster._core.storage.sql import AlembicVersion
+from dagster._core.storage.migration_types import AlembicVersion
 from dagster._core.storage.tags import MULTIDIMENSIONAL_PARTITION_PREFIX
 from dagster._core.types.pagination import PaginatedResults
 from dagster._utils import PrintFn

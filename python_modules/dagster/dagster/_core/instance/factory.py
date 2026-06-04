@@ -37,10 +37,12 @@ def create_ephemeral_instance(
     from dagster._core.instance.instance import DagsterInstance
     from dagster._core.launcher.sync_in_memory_run_launcher import SyncInMemoryRunLauncher
     from dagster._core.run_coordinator import DefaultRunCoordinator
-    from dagster._core.storage.event_log import InMemoryEventLogStorage
+    from dagster._core.storage.lite_memory import (
+        LiteInMemoryEventLogStorage,
+        LiteInMemoryRunStorage,
+    )
     from dagster._core.storage.noop_compute_log_manager import NoOpComputeLogManager
     from dagster._core.storage.root import LocalArtifactStorage, TemporaryLocalArtifactStorage
-    from dagster._core.storage.runs import InMemoryRunStorage
 
     if tempdir is not None:
         local_storage = LocalArtifactStorage(tempdir)
@@ -50,8 +52,8 @@ def create_ephemeral_instance(
     return DagsterInstance(
         instance_type=InstanceType.EPHEMERAL,
         local_artifact_storage=local_storage,
-        run_storage=InMemoryRunStorage(preload=preload),
-        event_storage=InMemoryEventLogStorage(preload=preload),
+        run_storage=LiteInMemoryRunStorage(preload=preload),
+        event_storage=LiteInMemoryEventLogStorage(preload=preload),
         compute_log_manager=NoOpComputeLogManager(),
         run_coordinator=DefaultRunCoordinator(),
         run_launcher=SyncInMemoryRunLauncher(),

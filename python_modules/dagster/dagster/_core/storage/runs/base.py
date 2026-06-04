@@ -20,7 +20,7 @@ from dagster._core.storage.dagster_run import (
     RunsFilter,
     TagBucket,
 )
-from dagster._core.storage.sql import AlembicVersion
+from dagster._core.storage.migration_types import AlembicVersion
 from dagster._daemon.types import DaemonHeartbeat
 from dagster._utils import PrintFn
 
